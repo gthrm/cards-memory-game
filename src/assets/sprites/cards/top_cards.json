@@ -1,0 +1,51 @@
+{
+  "frames": [
+    {
+      "filename": "card1",
+      "frame": { "x": 0, "y": 0, "w": 196, "h": 306 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 196, "h": 306 },
+      "sourceSize": { "w": 196, "h": 306 }
+    },
+    {
+      "filename": "card2",
+      "frame": { "x": 197, "y": 0, "w": 196, "h": 306 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 196, "h": 306 },
+      "sourceSize": { "w": 196, "h": 306 }
+    },
+    {
+      "filename": "card3",
+      "frame": { "x": 394, "y": 0, "w": 196, "h": 306 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 196, "h": 306 },
+      "sourceSize": { "w": 196, "h": 306 }
+    },
+    {
+      "filename": "card4",
+      "frame": { "x": 0, "y": 307, "w": 196, "h": 306 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 196, "h": 306 },
+      "sourceSize": { "w": 196, "h": 306 }
+    },
+    {
+      "filename": "card5",
+      "frame": { "x": 197, "y": 307, "w": 196, "h": 306 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 196, "h": 306 },
+      "sourceSize": { "w": 196, "h": 306 }
+    }
+  ],
+  "meta": {
+    "app": "https://www.leshylabs.com/apps/sstool/",
+    "version": "Leshy SpriteSheet Tool v0.8.4",
+    "image": "top_cards.png",
+    "size": { "w": 590, "h": 613 },
+    "scale": 1
+  }
+}

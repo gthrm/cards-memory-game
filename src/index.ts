@@ -4,7 +4,7 @@ import { GameScene } from './scenes/GameScene'
 export const gameConfig: Phaser.Types.Core.GameConfig = {
   title: 'Sample',
 
-  type: Phaser.AUTO,
+  type: Phaser.CANVAS,
 
   scale: {
     width: 1280,
