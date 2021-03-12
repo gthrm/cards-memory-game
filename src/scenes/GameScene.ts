@@ -6,6 +6,14 @@ export type Positions = {
   y: number;
 };
 
+type Sounds = {
+  theme: Phaser.Sound.BaseSound;
+  card: Phaser.Sound.BaseSound;
+  complete: Phaser.Sound.BaseSound;
+  success: Phaser.Sound.BaseSound;
+  timeout: Phaser.Sound.BaseSound;
+};
+
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
   visible: false,
@@ -13,6 +21,8 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 }
 
 const cards = [1, 2, 3, 4, 5]
+
+const INITIAL_TIMER_COUNT = 30
 
 export class GameScene extends Phaser.Scene {
   positions!: Array<Positions>;
@@ -23,12 +33,21 @@ export class GameScene extends Phaser.Scene {
 
   cardCounter!: number;
 
+  timerCount!: number;
+
+  timerText!: Phaser.GameObjects.Text | null;
+
+  sounds!: Sounds | null;
+
   constructor() {
     super(sceneConfig)
     this.positions = []
     this.cards = []
     this.openedCard = null
     this.cardCounter = 0
+    this.timerCount = INITIAL_TIMER_COUNT
+    this.timerText = null
+    this.sounds = null
   }
 
   setCardPositions() {
@@ -78,14 +97,45 @@ export class GameScene extends Phaser.Scene {
     this.add.sprite(0, 0, 'background').setOrigin(0, 0)
   }
 
+  createText() {
+    const textX = (this.sys.game.config.width as number) / 2
+    const textY = (this.sys.game.config.height as number) - 10
+    this.timerText = this.add.text(textX, textY, `Time: ${this.timerCount}`, {
+      font: '36px',
+      color: '#fff',
+    })
+    this.timerText.setOrigin(0.5, 1)
+  }
+
+  createTimer() {
+    this.time.addEvent({
+      delay: 1000,
+      callback: this.handleTimerChange.bind(this),
+      loop: true,
+    })
+  }
+
+  createSounds() {
+    this.sounds = {
+      theme: this.sound.add('theme'),
+      card: this.sound.add('card'),
+      complete: this.sound.add('complete'),
+      success: this.sound.add('success'),
+      timeout: this.sound.add('timeout'),
+    }
+    this.sounds.theme.play({ volume: 0.1 })
+  }
+
   handleCardClick(pointer: Phaser.Input.Pointer, card: Card) {
     if (card.opened) {
       return
     }
+    this.sounds?.card.play()
     if (this.openedCard) {
       if (this.openedCard.value === card.value) {
         this.openedCard = null
         this.cardCounter += 1
+        this.sounds?.success.play()
       } else {
         this.openedCard.close()
         this.openedCard = card
@@ -95,16 +145,35 @@ export class GameScene extends Phaser.Scene {
     }
     card.open()
     if (this.cardCounter === cards.length) {
+      this.time.addEvent({
+        delay: 1500,
+        callback: () => this.sounds?.complete.play(),
+      })
+
+      this.time.addEvent({
+        delay: 2000,
+        callback: this.restart.bind(this),
+      })
+    }
+  }
+
+  handleTimerChange() {
+    if (this.timerCount === 0) {
+      this.sounds?.timeout.play()
       this.restart()
+    }
+    if (this.timerCount !== 0) {
+      this.timerCount -= 1
+      this.timerText?.setText(`Time: ${this.timerCount}`)
     }
   }
 
   restart() {
-    setTimeout(() => {
-      this.openedCard = null
-      this.cardCounter = 0
-      this.scene.restart()
-    }, 1500)
+    this.sounds?.theme.stop()
+    this.openedCard = null
+    this.timerCount = INITIAL_TIMER_COUNT
+    this.cardCounter = 0
+    this.scene.restart()
   }
 
   public preload() {
@@ -116,6 +185,12 @@ export class GameScene extends Phaser.Scene {
     this.load.image('card3', 'assets/sprites/cards/card3.png')
     this.load.image('card4', 'assets/sprites/cards/card4.png')
     this.load.image('card5', 'assets/sprites/cards/card5.png')
+
+    this.load.audio('theme', 'assets/sounds/theme.mp3')
+    this.load.audio('card', 'assets/sounds/card.mp3')
+    this.load.audio('complete', 'assets/sounds/complete.mp3')
+    this.load.audio('success', 'assets/sounds/success.mp3')
+    this.load.audio('timeout', 'assets/sounds/timeout.mp3')
   }
 
   public create() {
@@ -123,6 +198,9 @@ export class GameScene extends Phaser.Scene {
     this.createBackground()
     this.setCardPositions()
     this.createCards()
+    this.createText()
+    this.createTimer()
+    this.createSounds()
   }
 
   // public update() {
