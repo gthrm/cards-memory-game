@@ -1,11 +1,13 @@
 {
-  "name": "4",
+  "name": "cards-memory-game",
   "version": "1.0.0",
-  "description": "",
+  "description": "cards-memory-game",
   "main": "index.ts",
   "scripts": {
     "start": "webpack serve --config ./webpack.config.js --mode development",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx  --config ./.eslintrc.js"
+    "build": "webpack",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx  --config ./.eslintrc.js",
+    "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
     "@babel/core": "7.12.9",
@@ -17,6 +19,7 @@
     "eslint": "7.21.0",
     "eslint-config-airbnb-base": "14.2.1",
     "eslint-plugin-import": "2.22.1",
+    "gh-pages": "^3.1.0",
     "html-loader": "^1.3.2",
     "html-webpack-plugin": "^4.5.0",
     "parcel-bundler": "1.12.4",
@@ -26,9 +29,21 @@
     "webpack-cli": "4.5.0",
     "webpack-dev-server": "3.11.2"
   },
-  "author": "",
+  "author": "cdROma",
   "license": "ISC",
   "dependencies": {
     "phaser": "3.52.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gthrm/cards-memory-game.git"
+  },
+  "keywords": [
+    "phaser3",
+    "game"
+  ],
+  "bugs": {
+    "url": "https://github.com/gthrm/cards-memory-game/issues"
+  },
+  "homepage": "https://gthrm.github.io/cards-memory-game/"
 }
